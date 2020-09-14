@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Text_btnLog.dart';
 import 'home/pagehome.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,12 +14,15 @@ class LoginPage extends StatefulWidget {
 
 class _Login extends State<LoginPage> {
   String _email, _password;
-
+  final RoundedLoadingButtonController _btnController =
+      new RoundedLoadingButtonController();
   // ignore: unused_field
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -90,7 +96,7 @@ class _Login extends State<LoginPage> {
   // ignore: non_constant_identifier_names
   FiLEDEMAIL() {
     return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20, top: 50),
+      padding: EdgeInsets.only(left: 20, right: 20, top: 45),
       child: Container(
           decoration: new BoxDecoration(
               color: Colors.white54,
@@ -122,7 +128,7 @@ class _Login extends State<LoginPage> {
   // ignore: non_constant_identifier_names
   FiLEDPASSWORD() {
     return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20, top: 40),
+      padding: EdgeInsets.only(left: 20, right: 20, top: 35),
       child: Container(
           decoration: new BoxDecoration(
               color: Colors.white54,
@@ -155,32 +161,22 @@ class _Login extends State<LoginPage> {
   // ignore: non_constant_identifier_names
   BtnConnected() {
     return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-      child: ButtonTheme(
-          minWidth: 100.0,
+        padding: EdgeInsets.only(left: 20, right: 20, top: 5),
+        child: RoundedLoadingButton(
+          width: 100.0,
           height: 45.0,
-          child: RaisedButton(
-            disabledColor: Colors.white,
-            onPressed: singIn,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-                side: BorderSide(color: Colors.white)),
-            child: const Text(
-              'Connecte',
-              style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  fontFamily: 'Lobster'),
-            ),
-          )),
-    );
+          child: Text(
+            'Connecte',
+            style: TextStyle(
+                fontStyle: FontStyle.italic,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                fontFamily: 'Lobster'),
+          ),
+          controller: _btnController,
+          onPressed: singIn,
+        ));
   }
 
   Future<void> singIn() async {
@@ -193,11 +189,49 @@ class _Login extends State<LoginPage> {
         // ignore: unused_local_variable
         UserCredential user = (await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password));
+        Timer(Duration(seconds: 3), () {
+          _btnController.success();
+        });
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => HomePage(user: user)));
-      } catch (error) {
-        print(error);
+      } catch (e) {
+        if (e.toString() != "") {
+          showMyDialogErrorLog(e.message);
+          Timer(Duration(seconds: 3), () {
+            _btnController.reset();
+          });
+        }
       }
     }
+  }
+
+  Future<void> showMyDialogErrorLog(String error) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Supprimer Image', style: TextStyle(color: Colors.red)),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
