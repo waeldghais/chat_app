@@ -1,10 +1,13 @@
-import 'package:chat_app/ui/WidgetofDrawer/drawer.dart';
+import 'package:chat_app/ui/Compte/parCompte.dart';
+import 'package:chat_app/ui/PageAide/pageaide.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
-import 'listuser.dart';
+import '../loginP.dart';
+import 'listeUtulisateur/listuser.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key, @required this.user}) : super(key: key);
@@ -17,146 +20,307 @@ class HomePage extends StatefulWidget {
 class _HomeState extends State<HomePage> {
   _HomeState({Key key, @required this.user});
   final UserCredential user;
+  final List<String> labelList = <String>[
+    'Commencer le chat',
+    'Compte',
+    'Aide',
+    'Déconnexion'
+  ];
+  final List<Color> colorContainer = <Color>[
+    Colors.yellow[200],
+    Colors.blue[200],
+    Colors.green[200],
+    Colors.red[200]
+  ];
+  final List<Icon> iconsList = <Icon>[
+    Icon(
+      Icons.chat_bubble_outline,
+      color: Colors.yellow[700],
+      size: 24.0,
+    ),
+    Icon(
+      Icons.account_box,
+      color: Colors.blue[700],
+      size: 24.0,
+    ),
+    Icon(
+      Icons.help_outline,
+      color: Colors.green[700],
+      size: 24.0,
+    ),
+    Icon(
+      Icons.exit_to_app,
+      color: Colors.red[700],
+      size: 24.0,
+    )
+  ];
+
   //final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      drawer: Container(
-        width: 270,
-        child: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              CreateHeader(context, user),
-              Divider(),
-              CreateListTile(context),
-            ],
-          ),
-        ),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.blue[600],
-        title: Text(
-          "chat intimité",
-          style: TextStyle(
-              fontStyle: FontStyle.italic,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              fontFamily: 'Lobster'),
-        ),
-        centerTitle: true,
-      ),
       body: Center(
-          child: SingleChildScrollView(
         child: Container(
           width: size.width,
           height: size.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("asset/img/bkg.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
           child: Stack(
             children: <Widget>[
+              Container(
+                  width: size.width,
+                  height: size.height,
+                  color: Colors.blue[200],
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('users')
+                          .doc("${widget.user.user.email}")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData)
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: size.height * 0.15),
+                              child: Container(
+                                  width: 130.0,
+                                  height: 130.0,
+                                  decoration: new BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                      image: new DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: new NetworkImage(
+                                              snapshot.data.get('image'))))),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                              ),
+                              child: Text(
+                                snapshot.data.get('nom') +
+                                    ' ' +
+                                    snapshot.data.get('prenom'),
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                    fontFamily: 'Lobster'),
+                              ),
+                            ),
+                          ],
+                        );
+                      })),
               Positioned(
-                top: 50,
-                bottom: 200,
-                left: 25,
-                right: 25,
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black38,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(22),
-                          topRight: Radius.circular(22),
-                          bottomLeft: Radius.circular(22),
-                          bottomRight: Radius.circular(22)),
-                    ),
-                    child: StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('users')
-                            .doc("${widget.user.user.email}")
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData)
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          return Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Container(
-                                    width: 120.0,
-                                    height: 110.0,
-                                    decoration: new BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: new NetworkImage(
-                                                snapshot.data.get('image'))))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 10,
-                                ),
-                                child: Text(
-                                  snapshot.data.get('nom') +
-                                      ' ' +
-                                      snapshot.data.get('prenom'),
-                                  style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 35,
-                                      fontFamily: 'Raleway'),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: 20, right: 20, top: 10),
-                                child: ButtonTheme(
-                                    minWidth: 100.0,
-                                    height: 45.0,
-                                    child: RaisedButton(
-                                      disabledColor: Colors.white,
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Listuser(user: user)));
-                                      },
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            topRight: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10),
-                                            bottomRight: Radius.circular(10),
-                                          ),
-                                          side:
-                                              BorderSide(color: Colors.white)),
-                                      child: const Text(
-                                        'commencer le chat',
+                top: size.height * 0.5,
+                child: SingleChildScrollView(
+                  child: Container(
+                      width: size.width,
+                      height: size.height * 0.5,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          topRight: Radius.circular(50),
+                        ),
+                      ),
+                      child: ListView.builder(
+                          padding: const EdgeInsets.only(top: 40, left: 20),
+                          itemCount: labelList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              child: Container(
+                                height: 70,
+                                //padding: const EdgeInsets.only(top: 60),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 45,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        color: colorContainer[index],
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15),
+                                          bottomLeft: Radius.circular(15),
+                                          bottomRight: Radius.circular(15),
+                                        ),
+                                      ),
+                                      child: iconsList[index],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 30),
+                                      child: Text(
+                                        '${labelList[index]}',
                                         style: TextStyle(
                                             fontStyle: FontStyle.italic,
-                                            color: Colors.white,
+                                            color: Colors.black,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
                                             fontFamily: 'Lobster'),
                                       ),
-                                    )),
-                              )
-                            ],
-                          );
-                        })),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 53),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.grey,
+                                        size: 24.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              onTap: () {
+                                if (labelList[index] == 'Commencer le chat') {
+                                  Navigator.of(context)
+                                      .push(_createRouteChat(user));
+                                } else if (labelList[index] == 'Compte') {
+                                  Navigator.of(context)
+                                      .push(_createRouteCompte(user));
+                                } else if (labelList[index] == 'Aide') {
+                                  Navigator.of(context)
+                                      .push(_createRouteAide());
+                                } else {
+                                  FirebaseAuth.instance.signOut().then(
+                                      (value) => Navigator.of(context)
+                                          .pushReplacement(
+                                              _createRoutesignOut()));
+                                }
+                              },
+                            );
+                          })),
+                ),
               ),
             ],
           ),
         ),
-      )),
+      ),
     );
   }
+}
+
+Route _createRouteChat(UserCredential user) {
+  return PageRouteBuilder(
+    pageBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    ) =>
+        Listuser(user: user),
+    transitionsBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+    ) =>
+        ScaleTransition(
+      scale: Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Curves.linear,
+        ),
+      ),
+      child: child,
+    ),
+  );
+}
+
+Route _createRouteCompte(UserCredential user) {
+  return PageRouteBuilder(
+    pageBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    ) =>
+        EditCompte(user: user),
+    transitionsBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+    ) =>
+        ScaleTransition(
+      scale: Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Curves.linear,
+        ),
+      ),
+      child: child,
+    ),
+  );
+}
+
+Route _createRoutesignOut() {
+  return PageRouteBuilder(
+    pageBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    ) =>
+        LoginPage(),
+    transitionsBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+    ) =>
+        ScaleTransition(
+      scale: Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Curves.linearToEaseOut,
+        ),
+      ),
+      child: child,
+    ),
+  );
+}
+
+Route _createRouteAide() {
+  return PageRouteBuilder(
+    pageBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    ) =>
+        AidePage(),
+    transitionsBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+    ) =>
+        ScaleTransition(
+      scale: Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Curves.linearToEaseOut,
+        ),
+      ),
+      child: child,
+    ),
+  );
 }

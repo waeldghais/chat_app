@@ -12,54 +12,51 @@ class _Body extends State<PageInscription> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Inscription",
-            style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                fontFamily: 'Lobster'),
-          ),
-          centerTitle: true,
+      appBar: AppBar(
+        title: Text(
+          "Inscription",
+          style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              fontFamily: 'Lobster'),
         ),
-        body: Center(
-            child: SingleChildScrollView(
-          child: Container(
-            width: size.width,
-            height: size.height - 80,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("asset/img/bkg.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Stack(
-              children: <Widget>[
-                Positioned(
-                  top: 20,
-                  bottom: 20,
-                  left: 25,
-                  right: 25,
-                  child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black38,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(22),
-                            topRight: Radius.circular(22),
-                            bottomLeft: Radius.circular(22),
-                            bottomRight: Radius.circular(22)),
-                      ),
+        centerTitle: true,
+      ),
+      body: Container(
+        width: size.width,
+        height: size.height - 80,
+        color: Colors.white70,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top: 20,
+              bottom: 20,
+              left: 25,
+              right: 25,
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue[200],
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(22),
+                        topRight: Radius.circular(22),
+                        bottomLeft: Radius.circular(22),
+                        bottomRight: Radius.circular(22)),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Center(
                       child: Column(
                         children: [
                           TextBtnI(),
                         ],
-                      )),
-                ),
-              ],
+                      ),
+                    ),
+                  )),
             ),
-          ),
-        )));
+          ],
+        ),
+      ),
+    );
   }
 }

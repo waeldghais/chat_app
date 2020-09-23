@@ -47,7 +47,7 @@ class _Body extends State<Bodychat> {
       var documentReference = FirebaseFirestore.instance
           .collection('messages')
           // ignore: unnecessary_brace_in_string_interps
-          .doc();
+          .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
       await _firestore.runTransaction((transaction) async {
         transaction.set(
@@ -65,7 +65,7 @@ class _Body extends State<Bodychat> {
       messageController.clear();
       scrollController.animateTo(
         0.0,
-        curve: Curves.easeOut,
+        curve: Curves.linear,
         duration: const Duration(milliseconds: 300),
       );
     }
@@ -147,7 +147,7 @@ class _Body extends State<Bodychat> {
             'isVideo': isVideo
           },
         );
-      });
+      }).catchError((e) => print(e.toString()));
       scrollController.animateTo(
         0.0,
         curve: Curves.easeOut,
@@ -167,12 +167,6 @@ class _Body extends State<Bodychat> {
     return Container(
         width: size.width,
         height: size.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("asset/img/bkg.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
         child: SafeArea(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

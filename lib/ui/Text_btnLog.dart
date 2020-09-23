@@ -81,7 +81,7 @@ Route _createRoute() {
       ).animate(
         CurvedAnimation(
           parent: animation,
-          curve: Curves.fastOutSlowIn,
+          curve: Curves.linear,
         ),
       ),
       child: child,

@@ -13,13 +13,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Chat Demo',
       theme: ThemeData(
-        textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.white),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+          textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.white),
+          brightness: Brightness.light),
       home: LoginPage(),
-      routes: {
-        '/log': (context) => LoginPage(),
-      },
     );
   }
 }

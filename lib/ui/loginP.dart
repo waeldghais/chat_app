@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:translator/translator.dart';
 import 'Text_btnLog.dart';
 import 'home/pagehome.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,7 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _Login extends State<LoginPage> {
-  String _email, _password;
+  String _email, _password, errorMsg;
   final RoundedLoadingButtonController _btnController =
       new RoundedLoadingButtonController();
   // ignore: unused_field
@@ -24,79 +25,76 @@ class _Login extends State<LoginPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "S'identifier",
-            style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                fontFamily: 'Lobster'),
-          ),
-          centerTitle: true,
-        ),
-        body: FutureBuilder(
-          future: Firebase.initializeApp(),
-          builder: (context, snapshot) => Center(
-              child: SingleChildScrollView(
-            child: Container(
-              width: size.width,
-              height: size.height - 80,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("asset/img/bkg.jpg"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: 90,
-                    bottom: 100,
-                    left: 25,
-                    right: 25,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black38,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(22),
-                            topRight: Radius.circular(22),
-                            bottomLeft: Radius.circular(22),
-                            bottomRight: Radius.circular(22)),
-                      ),
-                      child: Form(
-                          key: _formkey,
-                          child: Column(
-                            children: [
-                              //TEXT FiLED EMAIL
-                              FiLEDEMAIL(),
-
-                              //textfield pour password
-                              FiLEDPASSWORD(),
-                              //link for froget password
-                              ForgetPass(),
-                              // Button Connection
-                              BtnConnected(),
-
-                              //Button Text to create compte
-                              Textnewct()
-                            ],
-                          )),
+      body: FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot) => Container(
+          width: size.width,
+          height: size.height,
+          color: Colors.white70,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                top: 45,
+                bottom: 25,
+                left: 25,
+                right: 25,
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue[200],
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(22),
+                          topRight: Radius.circular(22),
+                          bottomLeft: Radius.circular(22),
+                          bottomRight: Radius.circular(22)),
                     ),
-                  ),
-                ],
+                    child: SingleChildScrollView(
+                      child: Center(
+                        child: Form(
+                            key: _formkey,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top: 40),
+                                  child: Text(
+                                    "S'identifier",
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 32,
+                                        fontFamily: 'Lobster'),
+                                  ),
+                                ),
+
+                                //TEXT FiLED EMAIL
+                                FiLEDEMAIL(),
+
+                                //textfield pour password
+                                FiLEDPASSWORD(),
+                                //link for froget password
+                                ForgetPass(),
+                                // Button Connection
+                                BtnConnected(),
+
+                                //Button Text to create compte
+                                Textnewct()
+                              ],
+                            )),
+                      ),
+                    )),
               ),
-            ),
-          )),
-        ));
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Methode TEXT FiLED EMAIL
   // ignore: non_constant_identifier_names
   FiLEDEMAIL() {
     return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20, top: 45),
+      padding: EdgeInsets.only(left: 20, right: 20, top: 100),
       child: Container(
           decoration: new BoxDecoration(
               color: Colors.white54,
@@ -181,37 +179,66 @@ class _Login extends State<LoginPage> {
 
   Future<void> singIn() async {
     final formState = _formkey.currentState;
+    final translator = GoogleTranslator();
 
     if (formState.validate()) {
       formState.save();
-
       try {
         // ignore: unused_local_variable
         UserCredential user = (await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password));
         Timer(Duration(seconds: 3), () {
-          _btnController.success();
+          _btnController.reset();
         });
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HomePage(user: user)));
+        Navigator.of(context).push(_createRoutesingIn(user));
       } catch (e) {
-        if (e.toString() != "") {
-          showMyDialogErrorLog(e.message);
-          Timer(Duration(seconds: 3), () {
-            _btnController.reset();
-          });
-        }
+        var msg = await translator.translate(e.message.toString(),
+            from: 'en', to: 'fr');
+        showMyDialogErrorLog(context, "$msg");
+        Timer(Duration(seconds: 3), () {
+          _btnController.reset();
+        });
       }
     }
   }
 
-  Future<void> showMyDialogErrorLog(String error) async {
+  Route _createRoutesingIn(UserCredential user) {
+    return PageRouteBuilder(
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+      ) =>
+          HomePage(user: user),
+      transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+      ) =>
+          ScaleTransition(
+        scale: Tween<double>(
+          begin: 0.0,
+          end: 1.0,
+        ).animate(
+          CurvedAnimation(
+            parent: animation,
+            curve: Curves.linear,
+          ),
+        ),
+        child: child,
+      ),
+    );
+  }
+
+  Future<void> showMyDialogErrorLog(context, String error) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Supprimer Image', style: TextStyle(color: Colors.red)),
+          backgroundColor: Colors.blue[200],
+          title: Text('Alert', style: TextStyle(color: Colors.red)),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[

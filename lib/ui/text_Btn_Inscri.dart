@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:translator/translator.dart';
 
 import 'home/pagehome.dart';
 
@@ -19,6 +20,7 @@ class _Body extends State<TextBtnI> {
   TextEditingController _passwordCo = new TextEditingController();
   TextEditingController _nom = new TextEditingController();
   TextEditingController _prenom = new TextEditingController();
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final RoundedLoadingButtonController _btnController =
       new RoundedLoadingButtonController();
@@ -161,6 +163,7 @@ class _Body extends State<TextBtnI> {
             ),
             controller: _btnController,
             onPressed: () async {
+              final translator = GoogleTranslator();
               try {
                 if (_passwordCo.text == _password.text) {
 // ignore: unused_local_variable
@@ -180,27 +183,93 @@ class _Body extends State<TextBtnI> {
                         'email': _email.text,
                         'image':
                             'https://firebasestorage.googleapis.com/v0/b/chat-33dec.appspot.com/o/useravatar.jpg?alt=media&token=325615b0-468f-4c37-b802-5d0619a5095b',
+                        'phone': 'indisponible'
                       },
                     );
                   });
                   Timer(Duration(seconds: 3), () {
                     _btnController.success();
                   });
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomePage(user: user)));
+                  Navigator.of(context).push(_createRouteInscription(user));
                 } else {
+                  Timer(Duration(seconds: 1), () {
+                    _btnController.reset();
+                  });
                   Scaffold.of(context).showSnackBar(SnackBar(
                     content:
                         Text('le mot de paase et Confirmation est inncorect'),
                   ));
                 }
-              } catch (error) {
-                print(error);
+              } catch (e) {
+                var msg = await translator.translate(e.message.toString(),
+                    from: 'en', to: 'fr');
+                showMyDialogErrorLog(context, "$msg");
+                Timer(Duration(seconds: 3), () {
+                  _btnController.reset();
+                });
               }
             },
           )),
     ]);
   }
+}
+
+Route _createRouteInscription(UserCredential user) {
+  return PageRouteBuilder(
+    pageBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    ) =>
+        HomePage(user: user),
+    transitionsBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+    ) =>
+        ScaleTransition(
+      scale: Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Curves.linear,
+        ),
+      ),
+      child: child,
+    ),
+  );
+}
+
+Future<void> showMyDialogErrorLog(context, String error) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.blue[200],
+        title: Text('Alert', style: TextStyle(color: Colors.red)),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text(
+                error,
+                style: TextStyle(color: Colors.black),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

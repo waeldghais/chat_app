@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:video_player/video_player.dart';
 
+import 'showVideo.dart';
+
 class Message extends StatefulWidget {
   final String from;
   final String text;
@@ -199,25 +201,35 @@ class _Body extends State<Message> {
                                                   ShowImage(text: text)));
                                     },
                                   )
-                                : Container(
-                                    width: 200,
-                                    child: FutureBuilder(
-                                      future: _initializeVideoPlayerFuture,
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.done) {
-                                          return AspectRatio(
-                                            aspectRatio:
-                                                _controller.value.aspectRatio,
-                                            child: VideoPlayer(_controller),
-                                          );
-                                        } else {
-                                          return Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-                                      },
-                                    )),
+                                : GestureDetector(
+                                    child: Container(
+                                        width: 200,
+                                        child: FutureBuilder(
+                                          future: _initializeVideoPlayerFuture,
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              return AspectRatio(
+                                                aspectRatio: _controller
+                                                    .value.aspectRatio,
+                                                child: VideoPlayer(_controller),
+                                              );
+                                            } else {
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            }
+                                          },
+                                        )),
+                                    onTap: () {
+                                      print(text);
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ShowVideo(text: text)));
+                                    },
+                                  ),
                           ],
                         ),
                       )
@@ -287,7 +299,6 @@ class _Body extends State<Message> {
                                                         ),
                                                       ),
                                                       onTap: () {
-                                                        print(text);
                                                         Navigator.of(context).push(
                                                             MaterialPageRoute(
                                                                 builder: (context) =>
@@ -296,33 +307,43 @@ class _Body extends State<Message> {
                                                                             text)));
                                                       },
                                                     )
-                                                  : Container(
-                                                      width: 200,
-                                                      child: FutureBuilder(
-                                                        future:
-                                                            _initializeVideoPlayerFuture,
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          if (snapshot
-                                                                  .connectionState ==
-                                                              ConnectionState
-                                                                  .done) {
-                                                            return AspectRatio(
-                                                              aspectRatio:
-                                                                  _controller
-                                                                      .value
-                                                                      .aspectRatio,
-                                                              child: VideoPlayer(
-                                                                  _controller),
-                                                            );
-                                                          } else {
-                                                            return Center(
-                                                              child:
-                                                                  CircularProgressIndicator(),
-                                                            );
-                                                          }
-                                                        },
-                                                      )),
+                                                  : GestureDetector(
+                                                      child: Container(
+                                                          width: 200,
+                                                          child: FutureBuilder(
+                                                            future:
+                                                                _initializeVideoPlayerFuture,
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              if (snapshot
+                                                                      .connectionState ==
+                                                                  ConnectionState
+                                                                      .done) {
+                                                                return AspectRatio(
+                                                                  aspectRatio:
+                                                                      _controller
+                                                                          .value
+                                                                          .aspectRatio,
+                                                                  child: VideoPlayer(
+                                                                      _controller),
+                                                                );
+                                                              } else {
+                                                                return Center(
+                                                                  child:
+                                                                      CircularProgressIndicator(),
+                                                                );
+                                                              }
+                                                            },
+                                                          )),
+                                                      onTap: () {
+                                                        Navigator.of(context).push(
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    ShowVideo(
+                                                                        text:
+                                                                            text)));
+                                                      },
+                                                    ),
                                               isVideo
                                                   ? Container(
                                                       decoration: BoxDecoration(
