@@ -1,3 +1,4 @@
+import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _List extends State<Listuser> {
         backgroundColor: Colors.blue[200],
         appBar: AppBar(
           title: Text(
-            "List d'utilisateur",
+            getTran(context, 'User_List'),
             style: TextStyle(
                 fontStyle: FontStyle.italic,
                 color: Colors.white,

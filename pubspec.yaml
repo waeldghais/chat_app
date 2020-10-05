@@ -23,6 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  easy_localization: ^2.3.3
   firebase_auth: ^0.18.0+1
   firebase_database: ^4.0.0
   firebase_core: ^0.5.0
@@ -39,6 +42,7 @@ dependencies:
   video_player: ^0.10.12+3
   translator: ^0.1.5
   rounded_loading_button: ^1.0.0
+  shared_preferences: ^0.5.12
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -67,6 +71,10 @@ flutter:
      - asset/img/usertouser.jpg
      - asset/img/useravatar.jpg
      - asset/img/aideCmp.jpg
+     - lib/lang/fr.json
+     - lib/lang/es.json
+     - lib/lang/en.json
+     - lib/lang/ar.json
   fonts:
     - family: Lobster
       fonts:

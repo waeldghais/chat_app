@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class _Body extends State<TextBtnI> {
             child: TextField(
               cursorColor: Colors.blue,
               decoration: InputDecoration(
-                hintText: 'Nom',
+                hintText: getTran(context, 'nom'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -63,7 +64,7 @@ class _Body extends State<TextBtnI> {
             child: TextField(
               cursorColor: Colors.blue,
               decoration: InputDecoration(
-                hintText: 'Prénom',
+                hintText: getTran(context, 'prenom'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -86,7 +87,7 @@ class _Body extends State<TextBtnI> {
             child: TextField(
               cursorColor: Colors.blue,
               decoration: InputDecoration(
-                hintText: 'Email',
+                hintText: getTran(context, 'Email'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -111,7 +112,7 @@ class _Body extends State<TextBtnI> {
               obscureText: true,
               cursorColor: Colors.blue,
               decoration: InputDecoration(
-                hintText: 'Password',
+                hintText: getTran(context, 'Mot_de_passe'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -135,7 +136,7 @@ class _Body extends State<TextBtnI> {
             child: TextField(
               cursorColor: Colors.blue,
               decoration: InputDecoration(
-                hintText: 'Confirmation Password',
+                hintText: getTran(context, 'conpass'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -153,7 +154,7 @@ class _Body extends State<TextBtnI> {
             width: 100.0,
             height: 45.0,
             child: Text(
-              'Inscription',
+              getTran(context, 'Inscription'),
               style: TextStyle(
                   fontStyle: FontStyle.italic,
                   color: Colors.white,
@@ -196,8 +197,7 @@ class _Body extends State<TextBtnI> {
                     _btnController.reset();
                   });
                   Scaffold.of(context).showSnackBar(SnackBar(
-                    content:
-                        Text('le mot de paase et Confirmation est inncorect'),
+                    content: Text(getTran(context, 'copassI')),
                   ));
                 }
               } catch (e) {
@@ -250,7 +250,8 @@ Future<void> showMyDialogErrorLog(context, String error) async {
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: Colors.blue[200],
-        title: Text('Alert', style: TextStyle(color: Colors.red)),
+        title: Text(getTran(context, 'copassI'),
+            style: TextStyle(color: Colors.red)),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
@@ -263,7 +264,7 @@ Future<void> showMyDialogErrorLog(context, String error) async {
         ),
         actions: <Widget>[
           FlatButton(
-            child: Text('ok'),
+            child: Text(getTran(context, 'ok')),
             onPressed: () {
               Navigator.of(context).pop();
             },

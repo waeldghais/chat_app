@@ -43,7 +43,7 @@ class _List extends State<BodyList> {
 
                   List<DocumentSnapshot> docs = snapshot.data.docs;
 
-                  List<Widget> messeges = docs
+                  List<Widget> listuser = docs
                       .map((doc) => Listuser(
                           email: doc.get('email'),
                           image: doc.get('image'),
@@ -59,7 +59,7 @@ class _List extends State<BodyList> {
                     //scrollDirection: Axis.vertical,
                     //controller: scrollController,
                     children: <Widget>[
-                      ...messeges,
+                      ...listuser,
                     ],
                   );
                 },

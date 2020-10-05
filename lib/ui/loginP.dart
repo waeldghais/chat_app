@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:chat_app/localization/Cost_localization.dart';
+import 'package:chat_app/main.dart';
+import 'package:chat_app/model/lang.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:translator/translator.dart';
@@ -19,12 +22,65 @@ class _Login extends State<LoginPage> {
       new RoundedLoadingButtonController();
   // ignore: unused_field
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  void _changeLang(Language language) async {
+    Locale _tmp = await setLocale(language.langugeCode);
+    MyApp.setLocale(context, _tmp);
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          getTran(context, 'identifier'),
+          style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 27,
+              fontFamily: 'Lobster'),
+        ),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: DropdownButton(
+              onChanged: (Language language) {
+                _changeLang(language);
+              },
+              underline: SizedBox(),
+              icon: Icon(
+                Icons.language,
+                color: Colors.white,
+              ),
+              items: Language.languageList()
+                  .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
+                        value: lang,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              lang.flag,
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              lang.name,
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            )
+                          ],
+                        ),
+                      ))
+                  .toList(),
+            ),
+          )
+        ],
+      ),
       body: FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (context, snapshot) => Container(
@@ -53,19 +109,6 @@ class _Login extends State<LoginPage> {
                             key: _formkey,
                             child: Column(
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.only(top: 40),
-                                  child: Text(
-                                    "S'identifier",
-                                    style: TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 32,
-                                        fontFamily: 'Lobster'),
-                                  ),
-                                ),
-
                                 //TEXT FiLED EMAIL
                                 FiLEDEMAIL(),
 
@@ -105,13 +148,13 @@ class _Login extends State<LoginPage> {
             // ignore: missing_return
             validator: (input) {
               if (input.isEmpty) {
-                return 'saisre un email svp';
+                return getTran(context, 'nul_Email');
               }
             },
             onSaved: (input) => _email = input,
             cursorColor: Colors.blue,
             decoration: InputDecoration(
-              hintText: 'Email',
+              hintText: getTran(context, 'Email'),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -137,14 +180,14 @@ class _Login extends State<LoginPage> {
             // ignore: missing_return
             validator: (input) {
               if (input.isEmpty) {
-                return 'saisre un password svp';
+                return getTran(context, 'nul_Mot_de_passe');
               }
             },
             onSaved: (input) => _password = input,
             obscureText: true,
             cursorColor: Colors.blue,
             decoration: InputDecoration(
-              hintText: 'Password',
+              hintText: getTran(context, 'Mot_de_passe'),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -164,7 +207,7 @@ class _Login extends State<LoginPage> {
           width: 100.0,
           height: 45.0,
           child: Text(
-            'Connecte',
+            getTran(context, 'Connecte'),
             style: TextStyle(
                 fontStyle: FontStyle.italic,
                 color: Colors.white,
@@ -188,13 +231,17 @@ class _Login extends State<LoginPage> {
         UserCredential user = (await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password));
         Timer(Duration(seconds: 3), () {
-          _btnController.reset();
+          _btnController.success();
         });
         Navigator.of(context).push(_createRoutesingIn(user));
       } catch (e) {
         var msg = await translator.translate(e.message.toString(),
             from: 'en', to: 'fr');
         showMyDialogErrorLog(context, "$msg");
+        Timer(Duration(seconds: 3), () {
+          _btnController.reset();
+        });
+      } finally {
         Timer(Duration(seconds: 3), () {
           _btnController.reset();
         });
@@ -237,7 +284,7 @@ class _Login extends State<LoginPage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.blue[200],
+          backgroundColor: Colors.blue,
           title: Text('Alert', style: TextStyle(color: Colors.red)),
           content: SingleChildScrollView(
             child: ListBody(

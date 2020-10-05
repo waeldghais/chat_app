@@ -1,3 +1,4 @@
+import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:chat_app/ui/text_Btn_Inscri.dart';
 
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class _Body extends State<PageInscription> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Inscription",
+          getTran(context, 'Inscription'),
           style: TextStyle(
               fontStyle: FontStyle.italic,
               color: Colors.white,

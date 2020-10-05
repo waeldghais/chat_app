@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -69,9 +70,7 @@ class _Compte extends State<EditCompte> {
         FirebaseFirestore.instance
             .collection("users")
             .doc(user.user.email.toString())
-            .update({'image': imageUrl}).then((_) {
-          print("success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        });
+            .update({'image': imageUrl}).then((_) {});
         print(true);
       });
     }, onError: (err) {
@@ -92,7 +91,7 @@ class _Compte extends State<EditCompte> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 40, left: 20),
+                padding: const EdgeInsets.only(top: 40, left: 20, right: 15),
                 child: Row(
                   children: [
                     Container(
@@ -114,12 +113,12 @@ class _Compte extends State<EditCompte> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 30, right: 30),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Compte',
+                            getTran(context, 'Compte'),
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 color: Colors.black,
@@ -130,7 +129,7 @@ class _Compte extends State<EditCompte> {
                           Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: Text(
-                              'Modifier et gérer les détails de votre compte',
+                              getTran(context, 'Modifier et gérer'),
                               style: TextStyle(
                                   fontStyle: FontStyle.italic,
                                   color: Colors.grey[600],
@@ -179,7 +178,10 @@ class _Compte extends State<EditCompte> {
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              left: 10, top: 40, bottom: 10),
+                                              left: 10,
+                                              top: 40,
+                                              bottom: 10,
+                                              right: 10),
                                           child: Container(
                                               width: 60.0,
                                               height: 60.0,
@@ -207,8 +209,8 @@ class _Compte extends State<EditCompte> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 20),
+                                              padding: EdgeInsets.only(
+                                                  left: 20, right: 20),
                                               child: Text(
                                                 snapshot.data.get('nom') +
                                                     ' ' +
@@ -223,7 +225,7 @@ class _Compte extends State<EditCompte> {
                                             ),
                                             Padding(
                                               padding: EdgeInsets.only(
-                                                  left: 20, top: 5),
+                                                  left: 20, top: 5, right: 11),
                                               child: Text(
                                                 snapshot.data.get('email'),
                                                 style: TextStyle(
@@ -346,7 +348,8 @@ class _Compte extends State<EditCompte> {
                                                       width: 30.0,
                                                       height: 30.0,
                                                       child: Text(
-                                                        '  Edite  ',
+                                                        getTran(
+                                                            context, 'Edite'),
                                                         style: TextStyle(
                                                             fontStyle: FontStyle
                                                                 .italic,
@@ -376,10 +379,7 @@ class _Compte extends State<EditCompte> {
                                                             'nom': _nom.text,
                                                             'prenom':
                                                                 _prenom.text
-                                                          }).then((_) {
-                                                            print(
-                                                                "success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                                                          });
+                                                          }).then((_) {});
                                                           Timer(
                                                               Duration(
                                                                   seconds: 3),
@@ -392,8 +392,9 @@ class _Compte extends State<EditCompte> {
                                                                   SnackBar(
                                                             backgroundColor:
                                                                 Colors.green,
-                                                            content: Text(
-                                                                'votre pseudo est modifié'),
+                                                            content: Text(getTran(
+                                                                context,
+                                                                'votre pseudo est modifié')),
                                                           ));
                                                           _nom.clear();
                                                           _prenom.clear();
@@ -410,8 +411,9 @@ class _Compte extends State<EditCompte> {
                                                                   SnackBar(
                                                             backgroundColor:
                                                                 Colors.red,
-                                                            content: Text(
-                                                                'les deux champ de pseudo doit étre remplir'),
+                                                            content: Text(getTran(
+                                                                context,
+                                                                'les deux champ de pseudo doit étre remplir')),
                                                           ));
                                                         }
                                                       },
@@ -451,14 +453,12 @@ class _Compte extends State<EditCompte> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                          left: 10,
-                                          top: 35,
-                                        ),
+                                            left: 10, top: 35, right: 10),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('Num télephone',
+                                            Text(getTran(context, 'phone'),
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white,
@@ -511,11 +511,14 @@ class _Compte extends State<EditCompte> {
                                 clikRang2
                                     ? Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 20, top: 10, bottom: 10),
+                                            left: 10,
+                                            top: 10,
+                                            bottom: 10,
+                                            right: 16),
                                         child: Row(
                                           children: [
                                             Container(
-                                              width: 200,
+                                              width: 180,
                                               height: 30,
                                               decoration: BoxDecoration(
                                                 color: Colors.white12,
@@ -539,12 +542,12 @@ class _Compte extends State<EditCompte> {
                                             ),
                                             Padding(
                                                 padding: EdgeInsets.only(
-                                                    left: 0, right: 0, top: 5),
+                                                    left: 5, right: 0, top: 5),
                                                 child: RoundedLoadingButton(
                                                   width: 30.0,
                                                   height: 30.0,
                                                   child: Text(
-                                                    '  Edite  ',
+                                                    getTran(context, 'Edite'),
                                                     style: TextStyle(
                                                         fontStyle:
                                                             FontStyle.italic,
@@ -580,8 +583,9 @@ class _Compte extends State<EditCompte> {
                                                               SnackBar(
                                                         backgroundColor:
                                                             Colors.green,
-                                                        content: Text(
-                                                            'votre Num de tél est modifié'),
+                                                        content: Text(getTran(
+                                                            context,
+                                                            'téléphone est modifié')),
                                                       ));
                                                       _phone.clear();
                                                     } else {
@@ -595,8 +599,9 @@ class _Compte extends State<EditCompte> {
                                                               SnackBar(
                                                         backgroundColor:
                                                             Colors.red,
-                                                        content: Text(
-                                                            'votre Num de tél est inncorecte'),
+                                                        content: Text(getTran(
+                                                            context,
+                                                            'téléphone est incorrecte')),
                                                       ));
                                                       _phone.clear();
                                                     }
@@ -649,8 +654,10 @@ class _Compte extends State<EditCompte> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 50.0, top: 20),
-                        child: Text("Modfier votre mot de passe  ",
+                        padding: const EdgeInsets.only(
+                            left: 50.0, top: 10, right: 50),
+                        child: Text(
+                            getTran(context, 'Modifier votre mot de passe'),
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 color: Colors.black,
@@ -659,8 +666,9 @@ class _Compte extends State<EditCompte> {
                                 fontFamily: 'Lobster')),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 100, top: 20),
-                        child: Text("Mot de passe  ",
+                        padding: const EdgeInsets.only(
+                            left: 100, top: 10, right: 100),
+                        child: Text(getTran(context, 'Mot_de_passe'),
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 color: Colors.white,
@@ -669,7 +677,8 @@ class _Compte extends State<EditCompte> {
                                 fontFamily: 'Lobster')),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 60, top: 20),
+                        padding:
+                            const EdgeInsets.only(left: 60, top: 20, right: 60),
                         child: Container(
                           width: 200,
                           height: 30,
@@ -689,8 +698,9 @@ class _Compte extends State<EditCompte> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 45, top: 20),
-                        child: Text("Confirmation Mot de passe  ",
+                        padding: const EdgeInsets.only(
+                            left: 45, top: 20, right: 100),
+                        child: Text(getTran(context, 'conpass'),
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 color: Colors.white,
@@ -699,7 +709,8 @@ class _Compte extends State<EditCompte> {
                                 fontFamily: 'Lobster')),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 60, top: 20),
+                        padding:
+                            const EdgeInsets.only(left: 60, top: 20, right: 60),
                         child: Container(
                           width: 200,
                           height: 30,
@@ -724,7 +735,7 @@ class _Compte extends State<EditCompte> {
                             width: 30.0,
                             height: 30.0,
                             child: Text(
-                              '  Edite  ',
+                              getTran(context, 'Edite'),
                               style: TextStyle(
                                   fontStyle: FontStyle.italic,
                                   color: Colors.white,

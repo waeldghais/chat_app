@@ -1,3 +1,4 @@
+import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -73,7 +74,7 @@ class Listuser extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "Tel : " + phone,
+                          getTran(context, 'phone') + " : " + phone,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.white),
                         ),
@@ -84,12 +85,12 @@ class Listuser extends StatelessWidget {
                               IconButton(
                                   icon: Icon(Icons.supervised_user_circle),
                                   color: Colors.blue[900],
-                                  tooltip: 'Voir profil',
+                                  tooltip: getTran(context, 'Voir profil'),
                                   onPressed: () {}),
                               IconButton(
                                   icon: Icon(Icons.message),
                                   color: Colors.blue[900],
-                                  tooltip: 'Contact',
+                                  tooltip: getTran(context, 'Contact'),
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(_createRouteContact(user, email));

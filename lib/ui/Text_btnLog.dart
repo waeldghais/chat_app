@@ -1,3 +1,4 @@
+import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'inscription.dart';
@@ -28,7 +29,7 @@ class TextForgetPass extends StatelessWidget {
           },
           child: Container(
             padding: EdgeInsets.all(12.0),
-            child: Text('Mot de Passe Oublié?',
+            child: Text(getTran(context, 'FgPassword'),
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -50,7 +51,7 @@ class Textnewct extends StatelessWidget {
           },
           child: Container(
             padding: EdgeInsets.all(12.0),
-            child: Text("vous n'avez pas de compte? Créer un nouveau",
+            child: Text(getTran(context, 'creat_Cmpt'),
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,

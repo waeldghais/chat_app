@@ -1,3 +1,4 @@
+import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:chat_app/ui/Compte/parCompte.dart';
 import 'package:chat_app/ui/PageAide/pageaide.dart';
 
@@ -20,12 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomeState extends State<HomePage> {
   _HomeState({Key key, @required this.user});
   final UserCredential user;
-  final List<String> labelList = <String>[
-    'Commencer le chat',
-    'Compte',
-    'Aide',
-    'Déconnexion'
-  ];
+
   final List<Color> colorContainer = <Color>[
     Colors.yellow[200],
     Colors.blue[200],
@@ -59,7 +55,12 @@ class _HomeState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    final List<String> labelList = <String>[
+      'Commencer',
+      'Compte',
+      'Aide',
+      'Déconnexion'
+    ];
     return Scaffold(
       body: Center(
         child: Container(
@@ -142,6 +143,8 @@ class _HomeState extends State<HomePage> {
                                 height: 70,
                                 //padding: const EdgeInsets.only(top: 60),
                                 child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
                                       width: 45,
@@ -160,7 +163,7 @@ class _HomeState extends State<HomePage> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 30),
                                       child: Text(
-                                        '${labelList[index]}',
+                                        getTran(context, '${labelList[index]}'),
                                         style: TextStyle(
                                             fontStyle: FontStyle.italic,
                                             color: Colors.black,
@@ -170,7 +173,7 @@ class _HomeState extends State<HomePage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(right: 53),
+                                      padding: EdgeInsets.only(right: 50),
                                       child: Icon(
                                         Icons.arrow_forward_ios,
                                         color: Colors.grey,
@@ -181,7 +184,7 @@ class _HomeState extends State<HomePage> {
                                 ),
                               ),
                               onTap: () {
-                                if (labelList[index] == 'Commencer le chat') {
+                                if (labelList[index] == 'Commencer') {
                                   Navigator.of(context)
                                       .push(_createRouteChat(user));
                                 } else if (labelList[index] == 'Compte') {

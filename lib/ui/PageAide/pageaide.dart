@@ -1,3 +1,4 @@
+import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -7,7 +8,7 @@ class AidePage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Page d'aide",
+        title: Text(getTran(context, 'Aide'),
             style: TextStyle(
                 fontStyle: FontStyle.italic,
                 color: Colors.white,
@@ -40,7 +41,8 @@ class AidePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 60, top: 20),
                     child: Text(
-                        "Quels sont les noms autorisés sur notre application ?",
+                        getTran(context,
+                            'Quels sont les noms autorisés sur notre application'),
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Colors.blue,
@@ -50,8 +52,7 @@ class AidePage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20, top: 10),
-                    child: Text(
-                        "Notre application est une communauté dans laquelle chaque utilisateur emploie le nom dont il se sert au quotidien. De cette façon, toute personne peut connaître l’identité de son interlocuteur.",
+                    child: Text(getTran(context, 'Notre application'),
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Colors.black,
@@ -61,8 +62,7 @@ class AidePage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20, top: 10),
-                    child: Text(
-                        "Votre nom peut inclure tout les éléments ( symboles, des chiffres ...) ",
+                    child: Text(getTran(context, 'Votre nom peut inclure'),
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Colors.black,
@@ -72,8 +72,7 @@ class AidePage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20, top: 10),
-                    child: Text(
-                        "Mais de préférence ne peut pas inclure dans votre nom : ",
+                    child: Text(getTran(context, 'de préférence'),
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Colors.black,
@@ -83,8 +82,7 @@ class AidePage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 30, top: 10),
-                    child: Text(
-                        "- Des titres de quelque nature que ce soit (par exemple, professionnel, religieux)  ",
+                    child: Text(getTran(context, 'Des titres'),
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Colors.red,
@@ -94,8 +92,7 @@ class AidePage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 25, top: 10),
-                    child: Text(
-                        "- Des mots ou des expressions au lieu d’un nom  ",
+                    child: Text(getTran(context, 'Des mots'),
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Colors.red,
@@ -128,8 +125,7 @@ class AidePage extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 40, top: 20),
-                      child: Text(
-                          "Comment modifier les Paramètres généraux du votre profil ?",
+                      child: Text(getTran(context, 'Paramètres généraux'),
                           style: TextStyle(
                               fontStyle: FontStyle.italic,
                               color: Colors.blue,
@@ -141,7 +137,7 @@ class AidePage extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 30, top: 10),
                       child: RichText(
                         text: TextSpan(
-                          text: 'Cliquez sur ',
+                          text: getTran(context, 'Cliquez sur'),
                           style: TextStyle(
                               fontStyle: FontStyle.italic,
                               color: Colors.black,
@@ -150,15 +146,15 @@ class AidePage extends StatelessWidget {
                               fontFamily: 'Lobster'),
                           children: <TextSpan>[
                             TextSpan(
-                                text: 'Compte ',
+                                text: getTran(context, 'Compte'),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
                                   fontSize: 18,
                                 )),
                             TextSpan(
-                                text:
-                                    "dans la page d'accueil, pour modfier votre profile"),
+                                text: getTran(
+                                    context, 'pour modfier votre profile')),
                           ],
                         ),
                       ),
@@ -168,8 +164,7 @@ class AidePage extends StatelessWidget {
                         child: Image.asset("asset/img/aideCmp.jpg")),
                     Padding(
                       padding: const EdgeInsets.only(left: 25, top: 10),
-                      child: Text(
-                          "Tu peut modfier votre Image, Nom, Prénom, Email, Mot de passe, .... ",
+                      child: Text(getTran(context, 'Tu peut modfier'),
                           style: TextStyle(
                               fontStyle: FontStyle.italic,
                               color: Colors.red,
