@@ -20,6 +20,7 @@ class _Chat extends State<ChatPage> {
   _Chat({Key key, @required this.user, this.email});
   final UserCredential user;
   final String email;
+  bool trad = false;
   //final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {

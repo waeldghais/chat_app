@@ -42,6 +42,7 @@ class _Body extends State<TextBtnI> {
               cursorColor: Colors.blue,
               decoration: InputDecoration(
                 hintText: getTran(context, 'nom'),
+                prefixIcon: Icon(Icons.format_size),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -65,6 +66,7 @@ class _Body extends State<TextBtnI> {
               cursorColor: Colors.blue,
               decoration: InputDecoration(
                 hintText: getTran(context, 'prenom'),
+                prefixIcon: Icon(Icons.format_size),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -88,6 +90,7 @@ class _Body extends State<TextBtnI> {
               cursorColor: Colors.blue,
               decoration: InputDecoration(
                 hintText: getTran(context, 'Email'),
+                prefixIcon: Icon(Icons.email),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -112,6 +115,7 @@ class _Body extends State<TextBtnI> {
               obscureText: true,
               cursorColor: Colors.blue,
               decoration: InputDecoration(
+                prefixIcon: Icon(Icons.lock_outline),
                 hintText: getTran(context, 'Mot_de_passe'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
@@ -137,6 +141,7 @@ class _Body extends State<TextBtnI> {
               cursorColor: Colors.blue,
               decoration: InputDecoration(
                 hintText: getTran(context, 'conpass'),
+                prefixIcon: Icon(Icons.lock_outline),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),

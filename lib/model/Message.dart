@@ -1,3 +1,4 @@
+import 'package:chat_app/model/lang.dart';
 import 'package:chat_app/ui/Chat/showImage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:video_player/video_player.dart';
 
-import 'showVideo.dart';
+import '../ui/Chat/showVideo.dart';
 
 class Message extends StatefulWidget {
   final String from;
@@ -16,6 +17,7 @@ class Message extends StatefulWidget {
   final bool toMe;
   final bool notMe;
   final bool isVideo;
+
   Message(
       {Key key,
       this.from,
@@ -62,9 +64,10 @@ class _Body extends State<Message> {
   final bool notMe;
   final bool isVideo;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  bool isTrad = false;
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
+
   @override
   void initState() {
     _controller = VideoPlayerController.network(text);
@@ -72,6 +75,22 @@ class _Body extends State<Message> {
     _controller.setLooping(true);
     _controller.setVolume(10.0);
     super.initState();
+  }
+
+  List<DropdownMenuItem<Language>> buildDropDownMenu(List _lang) {
+    List<DropdownMenuItem<Language>> item = List();
+    for (Language langs in _lang) {
+      item.add(DropdownMenuItem(
+        value: langs,
+        child: Text(langs.flag,
+            style: TextStyle(
+                fontStyle: FontStyle.italic,
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Lobster')),
+      ));
+    }
+    return item;
   }
 
   @override
@@ -281,150 +300,144 @@ class _Body extends State<Message> {
                               ),
                             ),
                             Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10, left: 5, bottom: 3),
-                                child:
-                                    //if type=1 ==> image
+                              padding:
+                                  EdgeInsets.only(top: 10, left: 5, bottom: 3),
+                              child:
+                                  //if type=1 ==> image
 
-                                    type == 1
-                                        ? Row(
-                                            children: [
-                                              !isVideo
-                                                  ? GestureDetector(
-                                                      child: Container(
-                                                        width: 200,
-                                                        child: Image(
-                                                          image: NetworkImage(
-                                                              text),
-                                                        ),
+                                  type == 1
+                                      ? Row(
+                                          children: [
+                                            !isVideo
+                                                ? GestureDetector(
+                                                    child: Container(
+                                                      width: 200,
+                                                      child: Image(
+                                                        image:
+                                                            NetworkImage(text),
                                                       ),
-                                                      onTap: () {
-                                                        Navigator.of(context).push(
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    ShowImage(
-                                                                        text:
-                                                                            text)));
-                                                      },
-                                                    )
-                                                  : GestureDetector(
-                                                      child: Container(
-                                                          width: 200,
-                                                          child: FutureBuilder(
-                                                            future:
-                                                                _initializeVideoPlayerFuture,
-                                                            builder: (context,
-                                                                snapshot) {
-                                                              if (snapshot
-                                                                      .connectionState ==
-                                                                  ConnectionState
-                                                                      .done) {
-                                                                return AspectRatio(
-                                                                  aspectRatio:
-                                                                      _controller
-                                                                          .value
-                                                                          .aspectRatio,
-                                                                  child: VideoPlayer(
-                                                                      _controller),
-                                                                );
-                                                              } else {
-                                                                return Center(
-                                                                  child:
-                                                                      CircularProgressIndicator(),
-                                                                );
-                                                              }
-                                                            },
-                                                          )),
-                                                      onTap: () {
-                                                        Navigator.of(context).push(
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    ShowVideo(
-                                                                        text:
-                                                                            text)));
-                                                      },
                                                     ),
-                                              isVideo
-                                                  ? Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.green[50],
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  50),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  50),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  50),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  50),
-                                                        ),
+                                                    onTap: () {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ShowImage(
+                                                                      text:
+                                                                          text)));
+                                                    },
+                                                  )
+                                                : GestureDetector(
+                                                    child: Container(
+                                                        width: 200,
+                                                        child: FutureBuilder(
+                                                          future:
+                                                              _initializeVideoPlayerFuture,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            if (snapshot
+                                                                    .connectionState ==
+                                                                ConnectionState
+                                                                    .done) {
+                                                              return AspectRatio(
+                                                                aspectRatio:
+                                                                    _controller
+                                                                        .value
+                                                                        .aspectRatio,
+                                                                child: VideoPlayer(
+                                                                    _controller),
+                                                              );
+                                                            } else {
+                                                              return Center(
+                                                                child:
+                                                                    CircularProgressIndicator(),
+                                                              );
+                                                            }
+                                                          },
+                                                        )),
+                                                    onTap: () {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ShowVideo(
+                                                                      text:
+                                                                          text)));
+                                                    },
+                                                  ),
+                                            isVideo
+                                                ? Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.green[50],
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(50),
+                                                        bottomLeft:
+                                                            Radius.circular(50),
+                                                        topRight:
+                                                            Radius.circular(50),
+                                                        bottomRight:
+                                                            Radius.circular(50),
                                                       ),
-                                                      child: IconButton(
-                                                          color: Colors.blue,
-                                                          icon: Icon(_controller
-                                                                  .value
-                                                                  .isPlaying
-                                                              ? Icons.pause
-                                                              : Icons
-                                                                  .play_arrow),
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              if (_controller
-                                                                  .value
-                                                                  .isPlaying) {
-                                                                _controller
-                                                                    .pause();
-                                                              } else {
-                                                                _controller
-                                                                    .play();
-                                                              }
-                                                            });
-                                                          }),
-                                                    )
-                                                  : Container(),
-                                              Column(children: [
-                                                IconButton(
+                                                    ),
+                                                    child: IconButton(
+                                                        color: Colors.blue,
+                                                        icon: Icon(_controller
+                                                                .value.isPlaying
+                                                            ? Icons.pause
+                                                            : Icons.play_arrow),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            if (_controller
+                                                                .value
+                                                                .isPlaying) {
+                                                              _controller
+                                                                  .pause();
+                                                            } else {
+                                                              _controller
+                                                                  .play();
+                                                            }
+                                                          });
+                                                        }),
+                                                  )
+                                                : Container(),
+                                            Column(children: [
+                                              IconButton(
+                                                color: Colors.blue,
+                                                icon:
+                                                    Icon(Icons.cloud_download),
+                                                onPressed: () => downloadImage(
+                                                    context, text),
+                                              ),
+                                              IconButton(
                                                   color: Colors.blue,
                                                   icon: Icon(
-                                                      Icons.cloud_download),
-                                                  onPressed: () =>
-                                                      downloadImage(
-                                                          context, text),
-                                                ),
-                                                IconButton(
-                                                    color: Colors.blue,
-                                                    icon: Icon(
-                                                        Icons.delete_outline),
-                                                    onPressed: () {
-                                                      isVideo
-                                                          ? showMyDialogDeleteImage(
-                                                              0)
-                                                          : showMyDialogDeleteImage(
-                                                              1);
-                                                    }),
-                                              ]),
-                                            ],
-                                          )
+                                                      Icons.delete_outline),
+                                                  onPressed: () {
+                                                    isVideo
+                                                        ? showMyDialogDeleteImage(
+                                                            0)
+                                                        : showMyDialogDeleteImage(
+                                                            1);
+                                                  }),
+                                            ]),
+                                          ],
+                                        )
 
-                                        //if type=0 ==> Simpel message
-                                        : Material(
-                                            color: Colors.pink[300],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            elevation: 6.0,
-                                            child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 10.0,
-                                                    horizontal: 15.0),
-                                                child: SelectableText(
-                                                  text,
-                                                )),
-                                          ))
+                                      //if type=0 ==> Simpel message
+                                      : Material(
+                                          color: Colors.pink[300],
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          elevation: 6.0,
+                                          child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 10.0,
+                                                  horizontal: 15.0),
+                                              child: SelectableText(
+                                                text,
+                                              )),
+                                        ),
+                            )
                           ],
                         ),
                       )

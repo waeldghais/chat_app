@@ -2,7 +2,7 @@ import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../Chat/chatPage.dart';
+import '../ui/Chat/chatPage.dart';
 
 class Listuser extends StatelessWidget {
   final String email;
@@ -33,6 +33,7 @@ class Listuser extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.all(19),

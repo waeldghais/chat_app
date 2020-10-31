@@ -1,23 +1,21 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:file/local.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:translator/translator.dart';
 
-import 'Message.dart';
+import '../../model/Message.dart';
 
 class Bodychat extends StatefulWidget {
-  final LocalFileSystem localFileSystem;
-  const Bodychat(
-      {Key key, @required this.user, this.email, this.localFileSystem})
-      : super(key: key);
+  const Bodychat({Key key, @required this.user, this.email}) : super(key: key);
   final UserCredential user;
   final String email;
 
@@ -35,12 +33,19 @@ class _Body extends State<Bodychat> {
   ScrollController scrollController = ScrollController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   TextEditingController messageController = TextEditingController();
+  TextEditingController textTra = TextEditingController();
 
   File imageFile;
   bool isLoading;
   String imageUrl;
   bool pressGal = false;
   bool pressCam = false;
+  bool pressTran = false;
+  bool getOption = true;
+  var _langText = ["fr", "en", "ar", "es"];
+  var _selected = "fr";
+  var _tradTextTo = ["fr", "en", "ar", "es"];
+  var _selectedTo = "en";
 //Send  Simpel Message
   Future<void> sendMessage() async {
     if (messageController.text.length > 0) {
@@ -212,7 +217,7 @@ class _Body extends State<Bodychat> {
             pressCam
                 ? Container(
                     decoration: BoxDecoration(
-                      color: Colors.green[50],
+                      color: Colors.white10,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(22),
                         topRight: Radius.circular(22),
@@ -260,7 +265,7 @@ class _Body extends State<Bodychat> {
             pressGal
                 ? Container(
                     decoration: BoxDecoration(
-                      color: Colors.green[50],
+                      color: Colors.white10,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(22),
                         topRight: Radius.circular(22),
@@ -296,6 +301,7 @@ class _Body extends State<Bodychat> {
                           icon: Icon(Icons.clear),
                           onPressed: () {
                             pressGal = false;
+
                             // ignore: invalid_use_of_protected_member
                             (context as Element).reassemble();
                           },
@@ -304,69 +310,297 @@ class _Body extends State<Bodychat> {
                       ],
                     ))
                 : Container(),
-            Padding(
-                padding: EdgeInsets.only(bottom: 0),
-                child: Container(
-                  height: 45,
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    border: new Border.all(width: 0.0),
-                  ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.apps),
-                        onPressed: () {
-                          //gallery
-                          pressGal = true;
-                          pressCam = false;
-                          // ignore: invalid_use_of_protected_member
-                          (context as Element).reassemble();
-                        },
-                        color: Colors.blue,
+            //Menu option
+
+            pressTran
+                ? Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white12,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(22),
+                        topRight: Radius.circular(22),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.camera_alt),
-                        onPressed: () {
-                          //Camera
-                          pressCam = true;
-                          pressGal = false;
-                          // ignore: invalid_use_of_protected_member
-                          (context as Element).reassemble();
-                        },
-                        color: Colors.blue,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 0),
+                    ),
+                    height: 220,
+                    width: size.width - 50,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 100),
+                          child: Row(
+                            children: [
+                              Text(
+                                getTran(context, 'tra'),
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    fontFamily: 'Lobster'),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 60),
+                                child: IconButton(
+                                  icon: Icon(Icons.clear),
+                                  iconSize: 25,
+                                  onPressed: () {
+                                    pressTran = false;
+                                    // ignore: invalid_use_of_protected_member
+                                    (context as Element).reassemble();
+                                  },
+                                  color: Colors.red,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
                           child: TextField(
                             style: TextStyle(color: Colors.black),
-                            onSubmitted: (value) => sendMessage(),
                             decoration: InputDecoration(
-                              hintText: 'Aa',
-                              //prefixIcon:
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(40),
-                                  topRight: Radius.circular(40),
-                                  bottomRight: Radius.circular(40),
-                                  bottomLeft: Radius.circular(40),
+                                labelText: getTran(context, 'traMot')),
+                            controller: textTra,
+                          ),
+                        ),
+                        //lena
+                        Padding(
+                          padding: const EdgeInsets.only(left: 90),
+                          child: Row(
+                            children: [
+                              DropdownButton<String>(
+                                items:
+                                    _langText.map((String dropDownStringItem) {
+                                  return DropdownMenuItem<String>(
+                                    value: dropDownStringItem,
+                                    child: Text(
+                                      dropDownStringItem,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (String newValeuSelected) {
+                                  setState(() {
+                                    this._selected = newValeuSelected;
+                                  });
+                                },
+                                value: _selected,
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.redo),
+                                iconSize: 25,
+                                onPressed: () {},
+                                color: Colors.blue,
+                              ),
+                              DropdownButton<String>(
+                                items: _tradTextTo
+                                    .map((String dropDownStringItem) {
+                                  return DropdownMenuItem<String>(
+                                    value: dropDownStringItem,
+                                    child: Text(
+                                      dropDownStringItem,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (String newValeuSelected) {
+                                  setState(() {
+                                    this._selectedTo = newValeuSelected;
+                                  });
+                                },
+                                value: _selectedTo,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        ButtonBar(
+                          children: <Widget>[
+                            FlatButton(
+                              child: Text('Ok'),
+                              color: Colors.blue,
+                              onPressed: () async {
+                                final translator = GoogleTranslator();
+                                pressTran = false;
+                                // ignore: invalid_use_of_protected_member
+                                (context as Element).reassemble();
+                                var msg = await translator.translate(
+                                    textTra.text,
+                                    from: _selected,
+                                    to: _selectedTo);
+                                textTra.clear();
+                                showMyDialogErrorLog(context, "$msg");
+                              },
+                            ),
+                            FlatButton(
+                              child: Text('Cancel'),
+                              color: Colors.blue,
+                              onPressed: () {
+                                pressTran = false;
+                                // ignore: invalid_use_of_protected_member
+                                (context as Element).reassemble();
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
+            Padding(
+                padding: EdgeInsets.only(bottom: 0),
+                child: getOption
+                    ? Container(
+                        height: 45,
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          border: new Border.all(width: 0.0),
+                        ),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.arrow_forward_ios),
+                              iconSize: 25,
+                              onPressed: () {
+                                //gallery
+                                getOption = false;
+                                pressCam = false;
+                                pressGal = false;
+                                // ignore: invalid_use_of_protected_member
+                                (context as Element).reassemble();
+                              },
+                              color: Colors.pink,
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 0),
+                                child: TextField(
+                                  style: TextStyle(color: Colors.black),
+                                  onSubmitted: (value) => sendMessage(),
+                                  decoration: InputDecoration(
+                                    hintText: 'Aa',
+                                    //prefixIcon:
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(40),
+                                        topRight: Radius.circular(40),
+                                        bottomRight: Radius.circular(40),
+                                        bottomLeft: Radius.circular(40),
+                                      ),
+                                    ),
+                                  ),
+                                  controller: messageController,
                                 ),
                               ),
                             ),
-                            controller: messageController,
-                          ),
+                            IconButton(
+                              icon: Icon(Icons.send),
+                              color: Colors.blue,
+                              onPressed: sendMessage,
+                            )
+                          ],
+                        ))
+                    : Container(
+                        height: 45,
+                        decoration: new BoxDecoration(
+                          color: Colors.blue[200],
+                          border: new Border.all(width: 0.0),
                         ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.send),
-                        color: Colors.blue,
-                        onPressed: sendMessage,
-                      )
-                    ],
-                  ),
-                ))
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: IconButton(
+                                icon: Icon(Icons.apps),
+                                onPressed: () {
+                                  //gallery
+                                  pressGal = true;
+                                  pressCam = false;
+                                  pressTran = false;
+                                  // ignore: invalid_use_of_protected_member
+                                  (context as Element).reassemble();
+                                },
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: IconButton(
+                                icon: Icon(Icons.camera_alt),
+                                onPressed: () {
+                                  //Camera
+                                  pressCam = true;
+                                  pressGal = false;
+                                  pressTran = false;
+                                  // ignore: invalid_use_of_protected_member
+                                  (context as Element).reassemble();
+                                },
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 50),
+                              child: IconButton(
+                                icon: Icon(Icons.g_translate),
+                                onPressed: () {
+                                  pressTran = true;
+                                  pressGal = false;
+                                  pressCam = false;
+                                  // ignore: invalid_use_of_protected_member
+                                  (context as Element).reassemble();
+                                },
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: IconButton(
+                                icon: Icon(Icons.clear),
+                                iconSize: 30,
+                                onPressed: () {
+                                  getOption = true;
+
+                                  // ignore: invalid_use_of_protected_member
+                                  (context as Element).reassemble();
+                                },
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
+                        )))
           ],
         )));
+  }
+
+  Future<void> showMyDialogErrorLog(context, String error) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black12,
+          title: Text(getTran(context, 'tra'),
+              style: TextStyle(color: Colors.red)),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

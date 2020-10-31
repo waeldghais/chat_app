@@ -155,6 +155,7 @@ class _Login extends State<LoginPage> {
             cursorColor: Colors.blue,
             decoration: InputDecoration(
               hintText: getTran(context, 'Email'),
+              prefixIcon: Icon(Icons.email),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -188,6 +189,7 @@ class _Login extends State<LoginPage> {
             cursorColor: Colors.blue,
             decoration: InputDecoration(
               hintText: getTran(context, 'Mot_de_passe'),
+              prefixIcon: Icon(Icons.lock_outline),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
