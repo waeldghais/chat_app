@@ -469,13 +469,13 @@ class _Body extends State<Bodychat> {
                                 // ignore: invalid_use_of_protected_member
                                 (context as Element).reassemble();
                               },
-                              color: Colors.pink,
+                              color: Colors.blue,
                             ),
                             Expanded(
                               child: Padding(
                                 padding: EdgeInsets.only(right: 0),
                                 child: TextField(
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.white12),
                                   onSubmitted: (value) => sendMessage(),
                                   decoration: InputDecoration(
                                     hintText: 'Aa',
@@ -503,7 +503,6 @@ class _Body extends State<Bodychat> {
                     : Container(
                         height: 45,
                         decoration: new BoxDecoration(
-                          color: Colors.blue[200],
                           border: new Border.all(width: 0.0),
                         ),
                         child: Row(
@@ -563,7 +562,7 @@ class _Body extends State<Bodychat> {
                                   // ignore: invalid_use_of_protected_member
                                   (context as Element).reassemble();
                                 },
-                                color: Colors.red,
+                                color: Colors.blue,
                               ),
                             ),
                           ],

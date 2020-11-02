@@ -1,12 +1,23 @@
 import 'package:chat_app/localization/Cost_localization.dart';
 import 'package:chat_app/localization/demo_localization.dart';
+import 'package:chat_app/model/theme.dart';
 import 'package:chat_app/ui/loginP.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyProvider());
+}
+
+class MyProvider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<ThemeNotifier>(
+      create: (_) => ThemeNotifier(),
+      child: MyApp(),
+    );
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -40,6 +51,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ThemeNotifier>(context);
     if (_locale == null) {
       return Container(
         child: Center(
@@ -48,12 +60,11 @@ class _MyAppState extends State<MyApp> {
       );
     } else {
       return MaterialApp(
+        themeMode: provider.theme == 'Light' ? ThemeMode.light : ThemeMode.dark,
+        darkTheme: ThemeData.dark(),
+        theme: ThemeData(primaryColor: Colors.blue),
         debugShowCheckedModeBanner: false,
         title: 'Chat Demo',
-        theme: ThemeData(
-            textTheme:
-                Theme.of(context).textTheme.apply(bodyColor: Colors.white),
-            brightness: Brightness.light),
         locale: _locale,
         localizationsDelegates: [
           DemoLocalizations.delegate,

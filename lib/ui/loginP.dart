@@ -96,7 +96,7 @@ class _Login extends State<LoginPage> {
                 right: 25,
                 child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.blue[200],
+                      color: Colors.blue[100],
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(22),
                           topRight: Radius.circular(22),
@@ -140,7 +140,7 @@ class _Login extends State<LoginPage> {
       padding: EdgeInsets.only(left: 20, right: 20, top: 100),
       child: Container(
           decoration: new BoxDecoration(
-              color: Colors.white54,
+              color: Colors.blue[100],
               border: new Border.all(width: 0.0),
               borderRadius: new BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20))),
@@ -173,7 +173,7 @@ class _Login extends State<LoginPage> {
       padding: EdgeInsets.only(left: 20, right: 20, top: 35),
       child: Container(
           decoration: new BoxDecoration(
-              color: Colors.white54,
+              color: Colors.blue[100],
               border: new Border.all(width: 0.0),
               borderRadius: new BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20))),

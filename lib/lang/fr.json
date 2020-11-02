@@ -38,9 +38,11 @@
     "Des mots":"- Des mots ou des expressions au lieu d’un nom  ",
     "Paramètres généraux":"Comment modifier les Paramètres généraux du votre profil ?",
     "Cliquez sur":"Cliquez sur ",
-    "pour modfier votre profile":" dans la page d'accueil, pour modifier votre profile",
+    "pour modfier votre profile":" dans la page de Paramètre, pour modifier votre profile",
     "tra":"traduction",
     "traMot":"Enter le mot à traduire",
-    "Tu peut modfier":"Tu peux modifier votre Image, Nom, Prénom, Email, Mot de passe, ...."
+    "Tu peut modfier":"Tu peux modifier votre Image, Nom, Prénom, Email, Mot de passe, ....",
+    "Paramètre": "Paramètre",
+    "Mode Sombre": "Mode Sombre"
     
 }

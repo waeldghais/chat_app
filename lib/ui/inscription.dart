@@ -38,7 +38,7 @@ class _Body extends State<PageInscription> {
               right: 25,
               child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.blue[200],
+                    color: Colors.blue[100],
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(22),
                         topRight: Radius.circular(22),

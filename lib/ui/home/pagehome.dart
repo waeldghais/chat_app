@@ -1,6 +1,8 @@
 import 'package:chat_app/localization/Cost_localization.dart';
-import 'package:chat_app/ui/Compte/parCompte.dart';
+
 import 'package:chat_app/ui/PageAide/pageaide.dart';
+import 'package:chat_app/ui/Parmetre/Compte/Parmetre.dart';
+import 'package:chat_app/ui/Parmetre/Compte/parCompte.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,7 +37,7 @@ class _HomeState extends State<HomePage> {
       size: 24.0,
     ),
     Icon(
-      Icons.account_box,
+      Icons.settings_applications,
       color: Colors.blue[700],
       size: 24.0,
     ),
@@ -57,7 +59,7 @@ class _HomeState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     final List<String> labelList = <String>[
       'Commencer',
-      'Compte',
+      'Paramètre',
       'Aide',
       'Déconnexion'
     ];
@@ -71,7 +73,6 @@ class _HomeState extends State<HomePage> {
               Container(
                   width: size.width,
                   height: size.height,
-                  color: Colors.blue[200],
                   child: StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection('users')
@@ -128,7 +129,7 @@ class _HomeState extends State<HomePage> {
                       width: size.width,
                       height: size.height * 0.5,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Colors.black26,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(50),
                           topRight: Radius.circular(50),
@@ -187,9 +188,9 @@ class _HomeState extends State<HomePage> {
                                 if (labelList[index] == 'Commencer') {
                                   Navigator.of(context)
                                       .push(_createRouteChat(user));
-                                } else if (labelList[index] == 'Compte') {
+                                } else if (labelList[index] == 'Paramètre') {
                                   Navigator.of(context)
-                                      .push(_createRouteCompte(user));
+                                      .push(_createRouteParametre(user));
                                 } else if (labelList[index] == 'Aide') {
                                   Navigator.of(context)
                                       .push(_createRouteAide());
@@ -241,14 +242,14 @@ Route _createRouteChat(UserCredential user) {
   );
 }
 
-Route _createRouteCompte(UserCredential user) {
+Route _createRouteParametre(UserCredential user) {
   return PageRouteBuilder(
     pageBuilder: (
       BuildContext context,
       Animation<double> animation,
       Animation<double> secondaryAnimation,
     ) =>
-        EditCompte(user: user),
+        Parmetre(user: user),
     transitionsBuilder: (
       BuildContext context,
       Animation<double> animation,

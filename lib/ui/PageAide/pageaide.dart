@@ -17,7 +17,6 @@ class AidePage extends StatelessWidget {
                 fontFamily: 'Lobster')),
         centerTitle: true,
       ),
-      backgroundColor: Colors.blue[200],
       body: Stack(
         children: [
           Positioned(
@@ -28,7 +27,7 @@ class AidePage extends StatelessWidget {
               width: size.width - 60,
               height: size.height * 0.41,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black12,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -113,7 +112,7 @@ class AidePage extends StatelessWidget {
                 width: size.width - 60,
                 height: size.height * 0.45,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.black12,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -160,7 +159,8 @@ class AidePage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.only(left: 40, top: 10),
+                        padding:
+                            const EdgeInsets.only(left: 40, top: 10, right: 40),
                         child: Image.asset("asset/img/aideCmp.jpg")),
                     Padding(
                       padding: const EdgeInsets.only(left: 25, top: 10),

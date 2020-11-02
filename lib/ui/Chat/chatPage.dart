@@ -25,7 +25,6 @@ class _Chat extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.blue[200],
         appBar: AppBar(
           title: AppBarChatPageTitel(context, this.email),
           actions: [

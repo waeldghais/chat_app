@@ -33,7 +33,7 @@ class _Body extends State<TextBtnI> {
         padding: EdgeInsets.only(left: 20, right: 20, top: 25),
         child: Container(
             decoration: new BoxDecoration(
-                color: Colors.white54,
+                color: Colors.blue[100],
                 border: new Border.all(width: 0.0),
                 borderRadius: new BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -57,7 +57,7 @@ class _Body extends State<TextBtnI> {
         padding: EdgeInsets.only(left: 20, right: 20, top: 25),
         child: Container(
             decoration: new BoxDecoration(
-                color: Colors.white54,
+                color: Colors.blue[100],
                 border: new Border.all(width: 0.0),
                 borderRadius: new BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -81,7 +81,7 @@ class _Body extends State<TextBtnI> {
         padding: EdgeInsets.only(left: 20, right: 20, top: 25),
         child: Container(
             decoration: new BoxDecoration(
-                color: Colors.white54,
+                color: Colors.blue[100],
                 border: new Border.all(width: 0.0),
                 borderRadius: new BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -106,7 +106,7 @@ class _Body extends State<TextBtnI> {
         padding: EdgeInsets.only(left: 20, right: 20, top: 25),
         child: Container(
             decoration: new BoxDecoration(
-                color: Colors.white54,
+                color: Colors.blue[100],
                 border: new Border.all(width: 0.0),
                 borderRadius: new BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -132,7 +132,7 @@ class _Body extends State<TextBtnI> {
         padding: EdgeInsets.only(left: 20, right: 20, top: 25),
         child: Container(
             decoration: new BoxDecoration(
-                color: Colors.white54,
+                color: Colors.blue[100],
                 border: new Border.all(width: 0.0),
                 borderRadius: new BorderRadius.only(
                     topLeft: Radius.circular(20),

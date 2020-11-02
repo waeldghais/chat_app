@@ -18,7 +18,6 @@ class _List extends State<Listuser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.blue[200],
         appBar: AppBar(
           title: Text(
             getTran(context, 'User_List'),

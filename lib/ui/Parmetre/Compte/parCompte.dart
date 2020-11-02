@@ -85,7 +85,6 @@ class _Compte extends State<EditCompte> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.blue[200],
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -98,7 +97,7 @@ class _Compte extends State<EditCompte> {
                       width: 45,
                       height: 45,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Colors.blue[200],
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
@@ -107,8 +106,8 @@ class _Compte extends State<EditCompte> {
                         ),
                       ),
                       child: Icon(
-                        Icons.settings_applications,
-                        color: Colors.blue[200],
+                        Icons.account_box,
+                        color: Colors.white,
                         size: 40.0,
                       ),
                     ),
@@ -230,7 +229,7 @@ class _Compte extends State<EditCompte> {
                                                 snapshot.data.get('email'),
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
-                                                    color: Colors.white,
+                                                    color: Colors.blue,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 14,
                                                     fontFamily: 'Lobster'),
@@ -461,7 +460,7 @@ class _Compte extends State<EditCompte> {
                                             Text(getTran(context, 'phone'),
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
-                                                    color: Colors.white,
+                                                    color: Colors.blue,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
                                                     fontFamily: 'Lobster')),
@@ -671,7 +670,7 @@ class _Compte extends State<EditCompte> {
                         child: Text(getTran(context, 'Mot_de_passe'),
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.white,
+                                color: Colors.blue,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 fontFamily: 'Lobster')),
@@ -703,7 +702,7 @@ class _Compte extends State<EditCompte> {
                         child: Text(getTran(context, 'conpass'),
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.white,
+                                color: Colors.blue,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 fontFamily: 'Lobster')),
