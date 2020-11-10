@@ -54,7 +54,6 @@ class AidePage extends StatelessWidget {
                     child: Text(getTran(context, 'Notre application'),
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
-                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                             fontFamily: 'Lobster')),
@@ -64,7 +63,6 @@ class AidePage extends StatelessWidget {
                     child: Text(getTran(context, 'Votre nom peut inclure'),
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
-                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                             fontFamily: 'Lobster')),
@@ -74,7 +72,6 @@ class AidePage extends StatelessWidget {
                     child: Text(getTran(context, 'de préférence'),
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
-                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                             fontFamily: 'Lobster')),
@@ -139,7 +136,6 @@ class AidePage extends StatelessWidget {
                           text: getTran(context, 'Cliquez sur'),
                           style: TextStyle(
                               fontStyle: FontStyle.italic,
-                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                               fontFamily: 'Lobster'),
@@ -148,7 +144,6 @@ class AidePage extends StatelessWidget {
                                 text: getTran(context, 'Compte'),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
                                   fontSize: 18,
                                 )),
                             TextSpan(

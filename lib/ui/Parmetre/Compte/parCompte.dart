@@ -120,7 +120,6 @@ class _Compte extends State<EditCompte> {
                             getTran(context, 'Compte'),
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 fontFamily: 'Lobster'),
@@ -216,7 +215,6 @@ class _Compte extends State<EditCompte> {
                                                     snapshot.data.get('prenom'),
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
-                                                    color: Colors.black,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 20,
                                                     fontFamily: 'Lobster'),
@@ -240,10 +238,9 @@ class _Compte extends State<EditCompte> {
                                         !clikRang1
                                             ? Padding(
                                                 padding:
-                                                    EdgeInsets.only(left: 50),
+                                                    EdgeInsets.only(left: 30),
                                                 child: Icon(
                                                   Icons.arrow_forward_ios,
-                                                  color: Colors.black,
                                                   size: 24.0,
                                                 ),
                                               )
@@ -476,7 +473,6 @@ class _Compte extends State<EditCompte> {
                                                       style: TextStyle(
                                                           fontStyle:
                                                               FontStyle.italic,
-                                                          color: Colors.black,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 18,
@@ -494,7 +490,6 @@ class _Compte extends State<EditCompte> {
                                                   EdgeInsets.only(left: 128),
                                               child: Icon(
                                                 Icons.arrow_forward_ios,
-                                                color: Colors.black,
                                                 size: 24.0,
                                               ),
                                             )
@@ -659,7 +654,6 @@ class _Compte extends State<EditCompte> {
                             getTran(context, 'Modifier votre mot de passe'),
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 fontFamily: 'Lobster')),

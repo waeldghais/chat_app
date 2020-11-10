@@ -453,7 +453,6 @@ class _Body extends State<Bodychat> {
                     ? Container(
                         height: 45,
                         decoration: new BoxDecoration(
-                          color: Colors.white,
                           border: new Border.all(width: 0.0),
                         ),
                         child: Row(
@@ -577,7 +576,6 @@ class _Body extends State<Bodychat> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.black12,
           title: Text(getTran(context, 'tra'),
               style: TextStyle(color: Colors.red)),
           content: SingleChildScrollView(

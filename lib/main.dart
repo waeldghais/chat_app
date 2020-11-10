@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ThemeNotifier>(context);
+    ThemeNotifier provider = Provider.of<ThemeNotifier>(context);
     if (_locale == null) {
       return Container(
         child: Center(

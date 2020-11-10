@@ -64,6 +64,16 @@ class _HomeState extends State<HomePage> {
       'Déconnexion'
     ];
     return Scaffold(
+      appBar: AppBar(
+        title: Text(getTran(context, 'home'),
+            style: TextStyle(
+                fontStyle: FontStyle.italic,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                fontFamily: 'Lobster')),
+        centerTitle: true,
+      ),
       body: Center(
         child: Container(
           width: size.width,
@@ -86,7 +96,7 @@ class _HomeState extends State<HomePage> {
                         return Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: size.height * 0.15),
+                              padding: EdgeInsets.only(top: size.height * 0.1),
                               child: Container(
                                   width: 130.0,
                                   height: 130.0,
@@ -113,7 +123,6 @@ class _HomeState extends State<HomePage> {
                                     snapshot.data.get('prenom'),
                                 style: TextStyle(
                                     fontStyle: FontStyle.italic,
-                                    color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 30,
                                     fontFamily: 'Lobster'),
@@ -123,7 +132,7 @@ class _HomeState extends State<HomePage> {
                         );
                       })),
               Positioned(
-                top: size.height * 0.5,
+                top: size.height * 0.4,
                 child: SingleChildScrollView(
                   child: Container(
                       width: size.width,
@@ -167,7 +176,6 @@ class _HomeState extends State<HomePage> {
                                         getTran(context, '${labelList[index]}'),
                                         style: TextStyle(
                                             fontStyle: FontStyle.italic,
-                                            color: Colors.black,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
                                             fontFamily: 'Lobster'),

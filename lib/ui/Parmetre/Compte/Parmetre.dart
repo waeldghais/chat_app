@@ -36,9 +36,11 @@ class _Parmetre extends State<Parmetre> {
       size: 24.0,
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final provider = Provider.of<ThemeNotifier>(context, listen: false);
+
     final List<String> labelList = <String>['Mode Sombre', 'Compte'];
     return Scaffold(
         appBar: AppBar(
@@ -108,8 +110,6 @@ class _Parmetre extends State<Parmetre> {
                   if (labelList[index] == 'Compte') {
                     Navigator.of(context).push(_createRouteCompte(user));
                   } else if (labelList[index] == 'Mode Sombre') {
-                    final provider =
-                        Provider.of<ThemeNotifier>(context, listen: false);
                     provider.toggletheme();
                   }
                 },
